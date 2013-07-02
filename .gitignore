@@ -1,0 +1,17 @@
+/.idea
+topic.iml
+.classpath
+.project
+.settings
+hs_err_pid*.log
+/target/
+/WebRoot/WEB-INF/classes/
+/logs/*.log
+/project/target/
+/project/project/target/
+.cache
+/lib/*.jar
+*.patch
+*.rej
+/bin
+RUNNING_PID

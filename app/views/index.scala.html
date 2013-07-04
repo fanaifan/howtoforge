@@ -1,4 +1,9 @@
-@(categroy_parent:List[models.Categroies],categroy_child:List[models.Categroies],article_list:List[models.ArticleList])
+@(categroy_parent:List[models.Categroies],
+categroy_child:List[models.Categroies],
+article_list:List[models.ArticleList],
+article_current:Int,
+article_total:Int
+)
 @main("HowtoForgo中文站"){
 <script type="text/javascript">
 	$('.tree-toggle').click(function() {
@@ -20,12 +25,12 @@
             	<div class="span">
            		 	@for(article <- article_list){
                     	<h4 class="left20"><a href="@article.article_href" class="right10">@article.article_title</a> @share()</h4>
-                    	<h5 class="left20"><b>译文标题</b>:@article.article_title_cn</h5>
+                    	<h5 class="left20"><b>译文标题(通过机器翻译)</b>:@article.article_title_cn</h5>
                    		<p class="left_right30"><b>原文</b>:@article.article_content</p>
-                   		<p class="left_right30"><b>译文(通过有道翻译)</b>:@article.article_content_cn</p>
+                   		<p class="left_right30"><b>译文(通过机器翻译)</b>:@article.article_content_cn</p>
                     	<hr>
                 	}
-                	<!-- @@ page() -->
+                	@page(article_current,article_total)
                 </div>
             </div>
         </div>

@@ -52,5 +52,13 @@ public class ArticleList extends Model{
 		return find.where().eq("categroy_name", category_name).findPagingList(size).getTotalPageCount();
 	}
 	
+	public static List<ArticleList> getArticles_100(int p){
+		return find.findPagingList(100).getPage(p).getList();
+	}
+	
+	public static int getArticleTotal100(){
+		return find.findPagingList(100).getTotalPageCount();
+	}
+	
 
 }

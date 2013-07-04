@@ -4,6 +4,9 @@
 
 # Home page
 GET     /                           controllers.Application.index()
+#cp:categroy_parent  cc:categroy_child
+GET		/howtos/:cp/:cc/page/:page/:size	controllers.Application.page(size:Int,page:Int,cc:String,cp:String)
+#GET		/page/:page/:size			controllers.Application.page(size:Int,page:Int)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

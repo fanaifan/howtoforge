@@ -41,4 +41,8 @@ public class Articles extends Model{
 		article.save();
 	}
 	
+	public static Articles getArticlesByhref(String href){
+		return find.where().eq("article_href", href).findUnique();
+	}
+	
 }

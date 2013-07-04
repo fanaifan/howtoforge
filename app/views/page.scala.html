@@ -1,0 +1,25 @@
+@(currentPage:Int,totalPage:Int)
+<script type="text/javascript">
+function prev(currentPage) {
+window.location.href = "/page/" + (currentPage - 1) + "/10";
+}
+function next(currentPage) {
+window.location.href = "/page/" + (currentPage + 1) + "/10";
+}
+function current(currentPage) {
+window.location.href = "/page/" + (currentPage) + "/10";
+}
+</script>
+<div class="pagination pagination-large pagination-centered">
+	<ul>
+		<li><a href="javascript:void(0);" @if(currentPage> 1){onclick="prev(@currentPage)"}>上一页</a></li> @if((currentPage-3)>=1){
+		<li><a href="javascript:void(0);" onclick="current(@currentPage-3)">@(currentPage-3)</a></li> } @if((currentPage-2)>=1){
+		<li><a href="javascript:void(0);" onclick="current(@currentPage-2)">@(currentPage-2)</a></li> } @if((currentPage-1)>=1){
+		<li><a href="javascript:void(0);" onclick="current(@currentPage-1)">@(currentPage-1)</a></li> }
+		<li class="active"><a href="javascript:void(0);" onclick="current(@currentPage)">@currentPage</a></li> @if((currentPage+1) <= totalPage){
+		<li><a href="javascript:void(0);" onclick="current(@currentPage+1)">@(currentPage+1)</a></li> } @if((currentPage+2) <= totalPage){
+		<li><a href="javascript:void(0);" onclick="current(@currentPage+2)">@(currentPage+2)</a></li> } @if((currentPage+3)<= totalPage){
+		<li><a href="javascript:void(0);" onclick="current(@currentPage+3)">@(currentPage+3)</a></li> }
+		<li><a href="javascript:void(0);" @if(currentPage< totalPage){ onclick="next(@currentPage)"}>下一页</a></li>
+	</ul>
+</div>

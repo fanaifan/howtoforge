@@ -1,0 +1,18 @@
+@(categroy_parent:List[models.Categroies],categroy_child:List[models.Categroies])
+<!-- left navbar -->
+            <div class="span2">
+                <div class="well">
+                    <div>
+                        <ul class="nav nav-list">
+                        @for(parent <- categroy_parent){
+                            <li><label class="tree-toggle nav-header">@parent.categroy_name</label>
+                                <ul class="nav nav-list tree">
+                                @for(child <- categroy_child){@if(child.categroy_parent == parent.categroy_name){<li><a href="@child.categroy_href">@child.categroy_name</a></li>}}
+                                </ul>
+                            </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- left navbar end -->

@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -19,12 +21,22 @@ public class Categroies extends Model{
 	@Column
 	public String categroy_name;
 	@Column
+	public String categroy_href;
+	@Column
 	public String categroy_parent;
 	
-	public Model.Finder<Long, Categroies> find = new Model.Finder<Long, Categroies>(Long.class, Categroies.class);
+	public static Model.Finder<Long, Categroies> finder = new Model.Finder<Long, Categroies>(Long.class, Categroies.class);
 
-	public void save(Categroies category){
-		category.save();
+	public static void save(Categroies categroy){
+		categroy.save();
+	}
+	
+	public static List<Categroies> getCategroiesParent(){
+		return finder.where().eq("categroy_parent", "parent").findList();
+	}
+	
+	public static List<Categroies> getCategroiesChild(){
+		return finder.all();
 	}
 	
 	

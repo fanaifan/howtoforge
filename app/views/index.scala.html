@@ -1,3 +1,4 @@
+@(categroy_parent:List[models.Categroies],categroy_child:List[models.Categroies],article_list:List[models.ArticleList])
 @main("HowtoForgo中文站"){
 <script type="text/javascript">
 	$('.tree-toggle').click(function() {
@@ -6,183 +7,25 @@
 </script>
 
 <div id="wrap">
-    <!-- header  start -->
-    <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container-fluid">
-                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
-                </button>
-                <a class="brand" href="#">HowtoForge中文站 -- Linux Tutorials</a>
-
-                <div class="nav-collapse collapse">
-                    <ul class="nav">
-                        <li class="active"><a href="/">首页</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- header end -->
-
+    @header()
     <!-- content start -->
     <div class="container-fluid">
         <div class="row-fluid">
-            <!-- left navbar -->
-            <div class="span2">
-                <div class="well">
-                    <div>
-                        <ul class="nav nav-list">
-                            <li><label class="tree-toggle nav-header">Link 1</label>
-                                <ul class="nav nav-list tree">
-                                    <li><a href="#">Link</a></li>
-                                    <li><a href="#">Link</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- left navbar end -->
-
+            @left(categroy_parent,categroy_child)
             <div id="advertise" class="span10">
                     <img class="img-polaroid" src="http://static.oschina.net/uploads/space/2013/0401/144218_1riz_179699.jpg">
             </div>
 
-            <div class="span10 top20 sider">
-                <div class="span10 offset1">
-                    <div class="node">
-
-
-                        <div class="info">Submitted by <a href="forums/member.php?u=109889" title="View user profile." rel="nofollow">joedm09</a> (<a href="forums/private.php?do=newpm&amp;u=109889" title="Contact author." rel="nofollow">Contact Author</a>) (<a href="forums" title="Forums.">Forums</a>) on Fri, 2013-06-28 20:45.<span class="taxonomy"> :: <a href="sitemap/linux/debian">Debian</a> | <a href="sitemap/storage">Storage</a></span></div>
-                        <div class="content">
-                            <div style="width:100%;border-top:1px solid #CCCCCC;border-bottom:1px solid #CCCCCC;padding:4px 0 2px 0;margin-bottom:5px;height:27px;">
-                                <ul style="list-style-type:none;">
-                                    <li style="width:115px;overflow:hidden;float:left;display:inline;"><g:plusone size="medium" href="http://www.howtoforge.com/how-to-create-a-fiber-channel-san-using-scst-with-qlogic-hba-on-linux-debian-6"></g:plusone></li>
-                                    <li style="width:180px;overflow:visible;float:left;display:inline;"><div id="fb-root"></div><fb:like href="http://www.howtoforge.com/how-to-create-a-fiber-channel-san-using-scst-with-qlogic-hba-on-linux-debian-6" send="true" layout="button_count" width="180" show_faces="false" font=""></fb:like></li>
-                                    <li style="width:115px;overflow:hidden;float:left;display:inline;"><a href="http://twitter.com/share" class="twitter-share-button" data-text="How To Create A Fiber Channel SAN Using SCST With QLogic HBA On Linux Debian 6" data-url="http://www.howtoforge.com/how-to-create-a-fiber-channel-san-using-scst-with-qlogic-hba-on-linux-debian-6" data-counturl="http://www.howtoforge.com/how-to-create-a-fiber-channel-san-using-scst-with-qlogic-hba-on-linux-debian-6" data-count="horizontal" data-via="falko">Tweet</a></li>
-                                </ul>
-                            </div><h2>How To Create A Fiber Channel SAN Using SCST With QLogic HBA On Linux Debian 6</h2>
-                            <p>I created this how-to as none of the other instructions on the internet work correctly. This is done specifically&nbsp; for Ubuntu and Debian and is based on the 2.6.32 although with some common sense this should work with any distro and any kernel.</p>
-                            <p>You should have a basic Linux understanding copy pasting everything probably won't work.</p>
-                            <p>  First make sure you are able to see the boot menu and change boot options.</p>
-                            <p class="command">  nano /etc/default/grub</p>
-                            <p># out hidden boot and timeout and save:</p>
-                            <p class="command">  update-grub</p>
-                            <p>  Install pre-requisites for build:</p>
-                            <p>  <span class="command">apt-get install fakeroot kernel-wedge build-essential makedumpfile kernel-package libncurses5 libncurses5-dev gcc libncurses5-dev linux-headers-$(uname -r) lsscsi patch subversion</span></p>
-                            <p class="command">  apt-get build-dep --no-install-recommends linux-image-$(uname -r)</p>
-                            <p>  Make sure QLogic firmware is available:</p>
-                            <p class="command">  ls /lib/firmware/ | grep ql*</p>
-                            <p>   If missing then download firmware from <a href="http://ldriver.qlogic.com/firmware/" target="_blank">http://ldriver.qlogic.com/firmware/</a></p>
-                            <p>  # (for debian to install firmware)</p>
-                            <p class="command">  mkdir /root/tmp<br />
-                                cd /root/tmp<br />
-                                wget http://ftp.au.debian.org/debian/pool...ueeze1_all.deb<br />
-                                dpkg -i firmware-qlogic_0.28+squeeze1_all.deb<br />
-                                ls /lib/firmware/ | grep ql*</p>
-                            <p>  Download SCST Trunk including the QLogic Target Drivers:</p>
-                            <p class="command">  cd /root<br />
-                                svn co https://scst.svn.sourceforge.net/svnroot/scst/trunk scst</p>
-                            <p>  Unload the system default drivers:</p>
-                            <p class="command">  rmmod qla2xxx<br />
-                                echo blacklist qla2xxx &gt;/etc/modprobe.d/blacklist-qla2xxx.conf</p>
-                            <p>  Download and install your kernel source and link the <span class="system">/usr/src/linux</span>:</p>
-                            <p class="command">  cd /usr/src<br />
-                                apt-get install linux-source-2.6<br />
-                                tar xjf linux-source-2.6.32.tar.bz2<br />
-                                ln -s /usr/src/linux-source-2.6.32 Linux</p>
-                            <p>  Patch source kernel to prepare to load SCST QLogic drivers (I'm sure theres more to it):</p>
-                            <p class="command">  cd /usr/src/linux-source-2.6.32<br />
-                                patch -p1 &lt; /root/scst/scst/kernel/scst_exec_req_fifo-2.6.32.patch</p>
-                            <p>  Copy running config file to be used in new kernel:</p>
-                            <p class="command">  cp -vi /boot/config-`uname -r` .config</p>
-                            <p>  Backup kernel original QLogic drivers and link to SCST QLogic drivers.</p>
-                            <p class="command">  mv /usr/src/linux/drivers/scsi/qla2xxx /usr/src/linux/drivers/scsi/qla2xxx_orig<br />
-                                ln -s ~/scst/trunk/qla2x00t /usr/src/linux/drivers/scsi/qla2xxx</p>
-                            <p>   Make menuconfig and ensure QLogic target mode is selected following the below route.</p>
-                            <p class="command">  make menuconfig</p>
-                            <p class="system">  Device Drivers-&gt;SCSI device support-&gt;SCSI low level drivers-&gt;Qlogic 2xxx target mode support</p>
-                            <p>  Make the build faster if you have multiple cores:</p>
-                            <p class="command">  export CONCURRENCY_LEVEL="number of CPU cores plus 1"</p>
-                            <p>  Build the kernel into a deb package:</p>
-                            <p class="command">  cd /usr/src/linux<br />
-                                make-kpkg clean<br />
-                                fakeroot make-kpkg --initrd --append-to-version=-scst kernel-image kernel-headers</p>
-                            <p>  Install new kernel:</p>
-                            <p class="command">  cd /usr/src/<br />
-                                dpkg -i linux-image-2.6.32-scst_2.6.32-scst-10.00.Custom_amd64.deb<br />
-                                dpkg -i linux-headers-2.6.32-scst_2.6.32-scst-10.00.Custom_amd64.deb</p>
-                            <p>  In Ubuntu you may need to update the RAM disk before reboot. Google the process but I think it is:</p>
-                            <p class="command">  update-initramfs -u</p>
-                            <p class="command">  reboot</p>
-                            <p>  Boot into newly installed kernel.</p>
-                            <p> Select a build mode that suits your needs, e.g. optimal performance or debugging SCST. The default mode is debug mode. Here is how to switch to release mode:</p>
-                            <p class="command">  cd /root/scst<br />
-                                make 2release</p>
-                            <p>  Now build the SCST kernel modules.</p>
-                            <p class="command">  cd /root/scst/scst/src<br />
-                                make all<br />
-                                make install</p>
-                            <p>  Build the QLogic target driver as follows:</p>
-                            <p class="command">  cd /root/scst<br />
-                                BUILD_2X_MODULE=y CONFIG_SCSI_QLA_FC=y CONFIG_SCSI_QLA2XXX_TARGET=y \<br />
-                                make -s -C qla2x00t/qla2x00-target install<br />
-                                ls -l /lib/modules/`uname -r`/extra/qla2*</p>
-                            <p>  Insert the kernel modules with the 'modprobe' program and add to startup modules:</p>
-                            <p class="command">  nano /etc/modules</p>
-                            <p>  Add the below text to the bottom and save <span class="system">/etc/modules</span>:</p>
-<pre>scst
-qla2xxx_scst
-qla2x00tgt
-scst_vdisk
-scst_user
-scst_disk</pre>
-                            <p>   Manually load the modules or reboot.</p>
-                            <p class="command">  modprobe scst<br />
-                                modprobe qla2xxx_scst<br />
-                                modprobe qla2x00tgt<br />
-                                modprobe scst_vdisk<br />
-                                modprobe scst_user<br />
-                                modprobe scst_disk</p>
-                            <p>  Locate and record Target WWN(s):</p>
-                            <p class="command">  cat /sys/class/fc_host/host*/port_name</p>
-                            <p>  Install SCST Admin:</p>
-                            <p class="command">  cd /root/scst/scstadmin<br />
-                                make<br />
-                                make install</p>
-                            <p>  Configure QLogic Device, Create Group, Create Virtual Disk, Create LUN and group it all together.</p>
-                            <p class="command">  scstadmin -enable_target "target WWN" -driver qla2x00t<br />
-                                scstadmin -add_group "group name" -driver qla2x00t -target "target WWN"<br />
-                                scstadmin -add_init "initiator wwn" -driver qla2x00t -target "target wwn" -group "group name"<br />
-                                scstadmin -add_init "additional initiator wwn" -driver qla2x00t -target "target wwn" -group "group name"</p>
-                            <p>  Create and use virtual Drive as LUN - will take ages, using disk1 located at <span class="system">/mnt/</span> as example file path.</p>
-                            <p class="command">  dd if=/dev/zero of="file path" bs="size in kb" count=512<br />
-                                ls -l /mnt/disk1<br />
-                                file /mnt/disk1</p>
-                            <p class="command">  scstadmin -open_dev "VD Name being disk1" -handler vdisk_fileio -attributes filename=/mnt/disk1<br />
-                                scstadmin -add_lun "lun ID" -driver qla2x00t -target "Target WWN" -group "group name" -device "VD Name being disk1"<br />
-                                scstadmin -write_config /etc/scst.conf</p>
-                            <p>  Still working on issue where script <span class="system">/etc/init.d/scst</span> does not run on boot. To get around this I simply isntalled sudo and added a command to <span class="system">/etc/rc.local</span>.</p>
-                            <p class="command">apt-get install sudo</p>
-                            <p class="command">  nano /etc/rc.local</p>
-                            <p>  Add the below command to the bottom of the file but before the end 0:</p>
-                            <pre>sudo scstadmin -config /etc/scst.conf</pre>
-                            <p>  Here is an example <span class="system">/etc/scst.conf</span> file:</p>
-                            <pre>HANDLER vdisk_fileio {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DEVICE VDisk01 {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; filename /vdisk/VDisk01<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />}<br /><br />TARGET_DRIVER qla2x00t {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TARGET 21:00:00:1b:32:08:6d:ea {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HW_TARGET<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; enabled 1<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rel_tgt_id 1<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GROUP esxi {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LUN 0 VDisk01<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INITIATOR 20:00:00:1b:32:08:a7:c3<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; INITIATOR 21:00:00:1b:32:08:a7:c3<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TARGET 21:01:00:1b:32:28:6d:ea {<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HW_TARGET<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; enabled 0<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />}</pre><br /><div class="copyright-footer">Copyright © 2013 Joe Black<br />All Rights Reserved.
-                        </div><div style="width:100%;border-top:1px solid #CCCCCC;border-bottom:1px solid #CCCCCC;padding:4px 0 2px 0;margin-bottom:5px;height:27px;">
-                            <ul style="list-style-type:none;">
-                                <li style="width:115px;overflow:hidden;float:left;display:inline;"><g:plusone size="medium" href="http://www.howtoforge.com/how-to-create-a-fiber-channel-san-using-scst-with-qlogic-hba-on-linux-debian-6"></g:plusone></li>
-                                <li style="width:180px;overflow:visible;float:left;display:inline;"><div id="fb-root"></div><fb:like href="http://www.howtoforge.com/how-to-create-a-fiber-channel-san-using-scst-with-qlogic-hba-on-linux-debian-6" send="true" layout="button_count" width="180" show_faces="false" font=""></fb:like></li>
-                                <li style="width:115px;overflow:hidden;float:left;display:inline;"><a href="http://twitter.com/share" class="twitter-share-button" data-text="How To Create A Fiber Channel SAN Using SCST With QLogic HBA On Linux Debian 6" data-url="http://www.howtoforge.com/how-to-create-a-fiber-channel-san-using-scst-with-qlogic-hba-on-linux-debian-6" data-counturl="http://www.howtoforge.com/how-to-create-a-fiber-channel-san-using-scst-with-qlogic-hba-on-linux-debian-6" data-count="horizontal" data-via="falko">Tweet</a></li>
-                            </ul>
-                        </div>  </div>
-                        <div class="links"><a href="comment/reply/7493#comment" title="Share your thoughts and opinions related to this posting." rel="nofollow">add comment</a> | <a href="subscription" title="View and print node as pdf."><img src="http://static.howtoforge.com/images/pdf.gif" border="0" alt="view as pdf" width="16" height="16"></a> <a href="subscription" title="View and print node as pdf.">view as pdf</a> | <a href="subscription" title="Display a printer-friendly version of this page." rel="nofollow"><img src="http://static.howtoforge.com/images/print.gif" border="0" alt="Display a printer-friendly version of this page." width="16" height="16"></a> <a href="subscription" title="Display a printer-friendly version of this page." rel="nofollow">print</a></div>
-
-                    </div><a id="comment"></a>
-                    <table width="100%" style="border: 1px solid #808080; background-color: #FFF4B7;"><tr><td style="background-color: #FFF4B7; padding: 7px; padding-top: 15px; padding-left: 15px;"><img src="/images/please_note.gif" border="0" alt=""></td><td style="font-size: 12px; font-style: italic; background-color: #FFF4B7; padding-left: 7px; padding-top: 15px; padding-right: 15px; padding-bottom: 15px;">Please do not use the comment function to ask for help! If you need help, please use our <a href="forums">forum</a>.<br>Comments will be published after administrator approval.</td></tr></table><form method="post" action="comment"><div>
-                    <input type="hidden" name="edit[nid]" value="7493" />
-                </div></form>
+            <div class="span10 top20 bottom20 sider">
+            	<div class="span">
+           		 	@for(article <- article_list){
+                    	<h4 class="left20"><a href="@article.article_href" class="right10">@article.article_title</a> @share()</h4>
+                    	<h5 class="left20"><b>译文标题</b>:@article.article_title_cn</h5>
+                   		<p class="left_right30"><b>原文</b>:@article.article_content</p>
+                   		<p class="left_right30"><b>译文(通过有道翻译)</b>:@article.article_content_cn</p>
+                    	<hr>
+                	}
+                	<!-- @@ page() -->
                 </div>
             </div>
         </div>
@@ -190,18 +33,5 @@ scst_disk</pre>
     <!-- content end -->
     <div id="push"></div>
 </div>
-
-<!-- footer start -->
-<div id="footer">
-    <div class="container">
-        <p class="muted credit">
-
-        <p>&copy; 2012 <a href="http://www.fanaifan.com">fanaifan.com</a>, Inc. &middot;
-            <a href="http://www.miibeian.gov.cn" target="_blank">京ICP备13000654号-2</a> &middot;
-            <a href="http://fblog.fanaifan.com" target="_blank">张鹏</a>
-        </p>
-        </p>
-    </div>
-</div>
-<!-- footer end -->
+@footer()
 }
